@@ -213,7 +213,7 @@ const config = {
 function getRpcUrl(chainId) {
   const chain = chains.find(chain => chain.chainId === chainId);
   if (chain) {
-    console.log(Using rpc url: ${chain.rpcUrl});
+    console.log(`Using rpc url: ${chain.rpcUrl}`);
     return chain.rpcUrl;
   } else {
     console.log("rpc chose error");
